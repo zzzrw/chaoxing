@@ -4,7 +4,10 @@ import configparser
 from api.logger import logger
 from api.base import Chaoxing, Account
 from api.exceptions import LoginError, FormatError, JSONDecodeError
+import sys
 
+# 设置控制台编码为 UTF-8
+sys.stdout.reconfigure(encoding='utf-8')
 def init_config():
     parser = argparse.ArgumentParser(description='Samueli924/chaoxing')  # 命令行传参
     parser.add_argument("-c", "--config", type=str, default=None, help="使用配置文件运行程序")
