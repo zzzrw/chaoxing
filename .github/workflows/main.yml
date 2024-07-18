@@ -36,12 +36,17 @@ jobs:
           ls dist
           echo ${{github.ref}}
 
+      - name: Debug environment variables
+        run: |
+          echo "USERNAME: ${{ secrets.USERNAME }}"
+          echo "ID: ${{ secrets.ID }}"
+
       - name: Run application
         env:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
           ID: ${{ secrets.ID }}
-        run: python main.py -u $USERNAME -p $PASSWORD -l $ID
+        run: python main.py -u "${{ secrets.USERNAME }}" -p "${{ secrets.PASSWORD }}" -l "${{ secrets.ID }}"
 
       - name: Publish
         uses: softprops/action-gh-release@v1
