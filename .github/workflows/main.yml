@@ -2,8 +2,6 @@ name: CI
 
 on:
   push:
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
@@ -18,6 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
@@ -30,12 +29,19 @@ jobs:
           pip install pyinstaller
 
       - name: Build win bin
-        run: pyinstaller -F main.py -n  'chaoxing'
+        run: pyinstaller -F main.py -n 'chaoxing'
 
       - name: run ls
         run: |
           ls dist
           echo ${{github.ref}}
+
+      - name: Run application
+        env:
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          ID: ${{ secrets.ID }}
+        run: python main.py -u $USERNAME -p $PASSWORD -l $ID
 
       - name: Publish
         uses: softprops/action-gh-release@v1
